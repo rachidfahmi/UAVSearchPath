@@ -345,7 +345,7 @@ CMakeFiles/UAVSearch.dir/main/main.cpp.o: \
  /home/rach/cadmium_v2/include/cadmium/simulation/core/../../modeling/devs/atomic.hpp \
  /home/rach/cadmium_v2/include/cadmium/simulation/core/../../modeling/devs/coupled.hpp \
  /home/rach/cadmium_v2/include/cadmium/simulation/logger/logger.hpp \
- /home/rach/UAVSearchPath/main/include/prob_cell.hpp \
+ /home/rach/UAVSearchPath/main/include/uav_search_cell.hpp \
  /home/rach/cadmium_v2/include/cadmium/modeling/celldevs/grid/cell.hpp \
  /home/rach/cadmium_v2/include/cadmium/modeling/celldevs/grid/config.hpp \
- /home/rach/UAVSearchPath/main/include/prob_state.hpp
+ /home/rach/UAVSearchPath/main/include/uav_search_state.hpp

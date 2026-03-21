@@ -1,20 +1,17 @@
 #include <cadmium/modeling/celldevs/grid/coupled.hpp>
 #include <cadmium/simulation/logger/csv.hpp>
 #include <cadmium/simulation/root_coordinator.hpp>
-#include <fstream>
 #include <string>
-#include "prob_cell.hpp"
+#include "uav_search_cell.hpp"
 
 using namespace cadmium::celldevs;
 
-std::shared_ptr<GridCell<ProbState, double>> addProbCell(
+std::shared_ptr<GridCell<UAVSearchState, double>> addCell(
     const std::vector<int>& cellId,
-    const std::shared_ptr<const GridCellConfig<ProbState, double>>& cellConfig) {
-
-    auto cellModel = cellConfig->cellModel;
-    if (cellModel == "default" || cellModel == "prob") {
-        return std::make_shared<ProbCell>(cellId, cellConfig);
-    }
+    const std::shared_ptr<const GridCellConfig<UAVSearchState, double>>& cellConfig) {
+    auto model = cellConfig->cellModel;
+    if (model == "default" || model == "uav_search")
+        return std::make_shared<UAVSearchCell>(cellId, cellConfig);
     throw std::bad_typeid();
 }
 
@@ -27,16 +24,16 @@ int main(int argc, char** argv) {
     std::string configFilePath = argv[1];
     double simTime = (argc > 2) ? std::stod(argv[2]) : 50;
 
-    auto model = std::make_shared<GridCellDEVSCoupled<ProbState, double>>(
-        "prob_grid", addProbCell, configFilePath);
+    auto model = std::make_shared<GridCellDEVSCoupled<UAVSearchState, double>>(
+        "uav_search", addCell, configFilePath);
     model->buildModel();
 
     auto rootCoordinator = cadmium::RootCoordinator(model);
-    rootCoordinator.setLogger<cadmium::CSVLogger>("output/prob_log.csv", ";");
+    rootCoordinator.setLogger<cadmium::CSVLogger>("output/uav_log.csv", ";");
     rootCoordinator.start();
     rootCoordinator.simulate(simTime);
     rootCoordinator.stop();
 
-    std::cout << "Simulation complete. Output: output/prob_log.csv" << std::endl;
+    std::cout << "Done. Output: output/uav_log.csv" << std::endl;
     return 0;
 }
