@@ -7,8 +7,7 @@
 
 struct UAVSearchState {
     double prob;
-    int    uav;   // 0=empty | 1-8=direction | 100=UAV | 200=UAV found target
-
+    int    uav;
     UAVSearchState() : prob(0.0), uav(0) {}
 };
 
@@ -17,7 +16,7 @@ inline bool operator!=(const UAVSearchState& x, const UAVSearchState& y) {
 }
 
 inline std::ostream& operator<<(std::ostream& os, const UAVSearchState& s) {
-    os << s.prob << "," << s.uav;
+    os << s.prob << "," << s.uav;    // comma + space — required by Cadmium viewer
     return os;
 }
 

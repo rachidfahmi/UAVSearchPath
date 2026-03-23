@@ -1,0 +1,10 @@
+# Build artifacts
+build/
+bin/
+
+# Simulation output
+output/*.csv
+
+# OS clutter
+.DS_Store
+*.swp
