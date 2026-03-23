@@ -8,3 +8,4 @@ output/*.csv
 # OS clutter
 .DS_Store
 *.swp
+.vscode/
