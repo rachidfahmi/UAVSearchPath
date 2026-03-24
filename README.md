@@ -109,8 +109,6 @@ Open the Cell-DEVS Web Viewer and upload:
 - Cell state must be printed as `prob,uav` with no spaces
 - The CSV file must be semicolon-separated
 
-> **Note:** The viewer expects GitHub-friendly plain text formatting in the exported state values, so avoid adding spaces inside `prob,uav`.
-
 ---
 
 ## Experiments
