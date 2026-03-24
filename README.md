@@ -1,115 +1,134 @@
-# UAV Search Path Planning — Cell-DEVS Simulation
-SYSC 5104 — Assignment 2  
-Rachid Fahmi (101415381)
+# UAV Search Path Planning -- Cell-DEVS Simulation
+
+**SYSC 5104 -- Assignment 2**  
+Rachid Fahmi · 101415381 · Carleton University · Winter 2026
+
+---
 
 ## Overview
-This project implements a Cell-DEVS model of UAV search path planning on a 30x30 grid.
+
+This project implements a **Cell-DEVS model** of UAV search path planning on a **30×30 grid** using **Cadmium v2**.
 
 Each cell stores two values:
-- `prob`: target probability in that cell
-- `uav`: UAV state
-  - `0` = empty
-  - `1..8` = temporary movement direction code
-  - `100` = UAV present
 
-The model combines:
-- probability diffusion over a Moore neighborhood
-- UAV movement toward the highest neighboring probability
+| Field  | Type     | Meaning                      |
+|--------|----------|------------------------------|
+| `prob` | `double` | Target probability in [0, 1] |
+| `uav`  | `int`    | `0` = empty, `100` = UAV     |
+
+The two conceptual layers from the formal specification (UAV layer and probability layer) are merged into a **single cell state** to preserve Cell-DEVS locality and avoid explicit cross-layer coupling.
+
+---
 
 ## Model Behavior
 
-### Probability Field
-The probability value diffuses over time using a Moore neighborhood:
-- each cell reads its 8 neighbors
-- probability spreads outward from high-probability regions
-- diffusion coefficient `alpha` must satisfy:
+### Probability Diffusion
+
+Every cell updates its `prob` value at each step using a **Moore neighborhood** (8 neighbors):
 
 ```text
-UAV Movement
+P_new = (1 - 8a) * P_self + a * sum(P_neighbors)
+```
 
-The UAV movement is implemented with local Cell-DEVS rules in three stages:
+> **Important:** Stability requires `a < 0.125`. The default value is `a = 0.05`.
 
-Decide
-If a cell contains the UAV (uav = 100), it chooses the best direction based on neighboring probability values.
-Arrive
-An empty neighboring cell becomes the new UAV cell if a direction code points to it.
-Clear
-Old direction-code cells are reset to 0.
+### UAV Movement
 
-This avoids UAV duplication and preserves Cell-DEVS locality.
+The UAV always moves to the neighboring cell with the highest probability.
 
-### Project Structure
+Ties are broken clockwise starting from North:
+
+N → NE → E → SE → S → SW → W → NW
+
+Exactly one cell holds `uav = 100` at all times.
+
+---
+
+## Project Structure
+
+```
 UAVSearchPath/
 ├── CMakeLists.txt
 ├── build_sim.sh
-├── README.md
-├── bin/
-├── build/
 ├── config/
-│   ├── prob_scenario.json
-│   └── uav_scenario.json
+│   └── uav_config.json
 ├── main/
 │   ├── main.cpp
 │   └── include/
 │       ├── uav_search_state.hpp
 │       └── uav_search_cell.hpp
-└── output/
-### Prerequisites
-Cadmium v2 installed locally
-CMake
-g++ with C++17 support
+├── output/
+│   └── uav_log.csv
+└── videos/
+    └── UAV SAR CELL DEVS.webm
+```
 
-This project assumes Cadmium headers are available through the paths defined in CMakeLists.txt.
+---
 
-Build
+## Prerequisites
+
+- Cadmium v2
+- CMake 3.14 or newer
+- `g++` with C++17 support
+
+Cadmium header paths are configured in `CMakeLists.txt`.
+
+---
+
+## Build and Run
+
+1. Build:
+
+```bash
 ./build_sim.sh
-Run
-Probability-only test
-./bin/UAVSearch config/prob_scenario.json 50
-Full UAV search simulation
-./bin/UAVSearch config/uav_scenario.json 100
-Output
+```
 
-Simulation logs are written to:
+2. Run full simulation:
 
-output/prob_log.csv
-output/uav_log.csv
+```bash
+./bin/UAVSearch config/uav_config.json 200
+```
 
-These files can be used with the DEVS / Cell-DEVS Web Viewer.
+Output is written to:
 
-Web Viewer Notes
+- `output/uav_log.csv`
 
-For the viewer to work correctly:
+---
 
-scenario origin must be [0,0]
-the scenario JSON must contain a viewer section
-the CSV log must be semicolon-separated
-the state output format must match what the viewer expects
+## Visualizing Results
 
-The working simulation uses:
+Open the Cell-DEVS Web Viewer and upload:
 
-config/uav_scenario.json
-output/uav_log.csv
-Example Experiments
-1. Single hotspot
-UAV starts at (0,0)
-hotspot at (22,22)
-UAV follows the diffused probability gradient toward the target region
-2. Probability-only diffusion
-hotspot starts at one cell
-probability spreads outward over time
-center probability decreases as neighbors gain probability
-Known Behavior
+- `config/uav_config.json`
+- `output/uav_log.csv`
 
-The UAV may oscillate near the target region after reaching the highest-probability area. This happens because:
+### Viewer Requirements
 
-the movement rule is local
-the probability field keeps diffusing
-the model does not include stop logic, memory, or visit penalties
+- `origin` must be `[0, 0]` in the JSON file
+- The JSON file must contain a `viewer` section with `prob` and `uav` layers
+- Cell state must be printed as `prob,uav` with no spaces
+- The CSV file must be semicolon-separated
 
-This is an expected limitation of local hill-climbing in a changing field.
+> **Note:** The viewer expects GitHub-friendly plain text formatting in the exported state values, so avoid adding spaces inside `prob,uav`.
 
-Author
+---
 
-Rachid Fahmi
-SYSC 5104 — Winter 2026
+## Experiments
+
+| # | UAV Start | Hotspot | What to Observe |
+|---|-----------|---------|-----------------|
+| 1 | (0, 0) | (22, 22) | UAV follows the diffused gradient |
+| 2 | (0, 0) | (22, 22) | Probability-only ring expands outward |
+
+---
+
+## Known Behavior
+
+Near the target region, the UAV may oscillate between a small group of neighboring cells. This happens because:
+
+- the probability field flattens due to diffusion
+- the movement rule is purely local
+- there is no stopping condition
+- there is no revisit penalty
+
+> **Tip:** This is an expected limitation of local hill-climbing on a dynamic field, not a bug.
