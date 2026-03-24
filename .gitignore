@@ -11,3 +11,5 @@ output/*.csv
 .vscode/
 build/
 bin/
+
+.Cell-DEVS Model for UAV Search Path Report.pdf:Zone.Identifier
