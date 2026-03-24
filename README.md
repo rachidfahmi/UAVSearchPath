@@ -18,31 +18,6 @@ Each cell stores two values:
 
 The two conceptual layers from the formal specification (UAV layer and probability layer) are merged into a **single cell state** to preserve Cell-DEVS locality and avoid explicit cross-layer coupling.
 
----
-
-## Model Behavior
-
-### Probability Diffusion
-
-Every cell updates its `prob` value at each step using a **Moore neighborhood** (8 neighbors):
-
-```text
-P_new = (1 - 8a) * P_self + a * sum(P_neighbors)
-```
-
-> **Important:** Stability requires `a < 0.125`. The default value is `a = 0.05`.
-
-### UAV Movement
-
-The UAV always moves to the neighboring cell with the highest probability.
-
-Ties are broken clockwise starting from North:
-
-N → NE → E → SE → S → SW → W → NW
-
-Exactly one cell holds `uav = 100` at all times.
-
----
 
 ## Project Structure
 
