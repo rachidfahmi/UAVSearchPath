@@ -9,3 +9,5 @@ output/*.csv
 .DS_Store
 *.swp
 .vscode/
+build/
+bin/

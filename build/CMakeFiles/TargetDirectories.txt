@@ -1,3 +1,0 @@
-/home/rach/UAVSearchPath/build/CMakeFiles/UAVSearch.dir
-/home/rach/UAVSearchPath/build/CMakeFiles/edit_cache.dir
-/home/rach/UAVSearchPath/build/CMakeFiles/rebuild_cache.dir
