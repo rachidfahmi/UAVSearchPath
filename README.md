@@ -22,9 +22,13 @@ The two conceptual layers from the formal specification (UAV layer and probabili
 ## Project Structure
 
 ```
+## Project Structure
+
+```text
 UAVSearchPath/
 ├── CMakeLists.txt
 ├── build_sim.sh
+├── run.sh
 ├── config/
 │   └── uav_config.json
 ├── main/
@@ -34,8 +38,11 @@ UAVSearchPath/
 │       └── uav_search_cell.hpp
 ├── output/
 │   └── uav_log.csv
-└── videos/
-    └── UAV SAR CELL DEVS.webm
+├── videos/
+│   └── UAV SAR CELL DEVS.webm
+├── README.md
+├── DEVSmodelsForm.doc
+└── Cell-DEVS Model for UAV Search Path Report.pdf
 ```
 
 ---
@@ -55,13 +62,13 @@ Cadmium header paths are configured in `CMakeLists.txt`.
 1. Build:
 
 ```bash
-./build_sim.sh
+source build_sim.sh
 ```
 
 2. Run full simulation:
 
 ```bash
-./bin/UAVSearch config/uav_config.json 200
+./run.sh
 ```
 
 Output is written to:
