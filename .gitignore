@@ -14,3 +14,5 @@ output/*.csv
 !output/scenario1_uav_log.csv
 !output/scenario2_uav_log.csv
 !output/uav_log.csv
+build/
+bin/
