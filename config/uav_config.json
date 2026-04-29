@@ -11,7 +11,7 @@
       "state": {"prob": 0.0, "uav": 0},
       "config": {"alpha": 0.05},
       "neighborhood": [
-        {"type": "moore", "range": 1, "vicinity": 1.0}
+        {"type": "moore", "range": 1}
       ]
     },
     "hotspot": {

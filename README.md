@@ -50,7 +50,7 @@ UAVSearchPath/
 ## Prerequisites
 
 - Cadmium v2
-- CMake 3.14 or newer
+- CMake 3.19 or newer
 - `g++` with C++17 support
 
 Cadmium header paths are configured in `CMakeLists.txt`.
@@ -59,7 +59,13 @@ Cadmium header paths are configured in `CMakeLists.txt`.
 
 ## Build and Run
 
-1. Build:
+1. Export the Cadmium path:
+
+```bash
+export CADMIUM=~/cadmium_v2/include
+```
+
+2. Build:
 
 ```bash
 source build_sim.sh
@@ -88,7 +94,7 @@ Open the Cell-DEVS Web Viewer and upload:
 
 - `origin` must be `[0, 0]` in the JSON file
 - The JSON file must contain a `viewer` section with `prob` and `uav` layers
-- Cell state must be printed as `prob,uav` with no spaces
+- Cell state must be printed as `<prob,uav>` (angle brackets required by Web Viewer)
 - The CSV file must be semicolon-separated
 
 ---
