@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 3.19)
 project(UAVSearchPath)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 if(NOT DEFINED ENV{CADMIUM})
     message(FATAL_ERROR
         "CADMIUM environment variable is not set.\n"
         "Please run: export CADMIUM=~/cadmium_v2/include")
 endif()
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
