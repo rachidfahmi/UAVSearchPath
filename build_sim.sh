@@ -3,7 +3,7 @@ set -e
 
 if [ -z "$CADMIUM" ]; then
     echo "ERROR: CADMIUM environment variable is not set."
-    echo "Run: export CADMIUM=~/cadmium_v2/include"
+    echo "Run: ./run.sh"
     exit 1
 fi
 
@@ -13,4 +13,4 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 cd ..
 echo "Build complete."
-echo "Run: ./bin/UAVSearch config/uav_config.json 200"
+echo "Run: ./run.sh"
