@@ -16,7 +16,7 @@ inline bool operator!=(const UAVSearchState& x, const UAVSearchState& y) {
 }
 
 inline std::ostream& operator<<(std::ostream& os, const UAVSearchState& s) {
-    os << s.prob << "," << s.uav;    // comma + space — required by Cadmium viewer
+     os << "<" << s.prob << "," << s.uav << ">";
     return os;
 }
 
